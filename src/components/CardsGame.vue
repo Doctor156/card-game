@@ -1,6 +1,11 @@
 <template>
   <div class="card-game__wrapper">
-    Тут будет игра
+    <div v-for="index in 9" :key="index" class="card-game__card" :ref="index" @click="makeCardActive(index)">
+      <div class="card-game__card-content-wrapper">
+        <div class="card-game__front-content" v-html="content" />
+        <div class="card-game__back-content">{{content}}</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -9,17 +14,37 @@
 import {Vue} from 'vue-property-decorator';
 
 export default class CardsGame extends Vue {
-  // @Prop({}) came!: ;
+  makeCardActive(ev) {
+    console.log(ev.target.class)
+  }
 
-  created() {
-
+  get content() {
+    return '<h1>Тонечка лохушка аа</h1>'
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .card-game {
+  display: flex;
+  font-size: 14px;
+
   &__wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+    grid-gap: 10px;
+  }
+
+  &__card {
+    width: 100%;
+    height: 300px;
     background-color: red;
   }
 }

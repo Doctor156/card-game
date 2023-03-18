@@ -1,5 +1,5 @@
 <template>
-    <CardsGame msg="Welcome to Your Vue.js App"/>
+    <CardsGame />
 </template>
 
 <script lang="ts">

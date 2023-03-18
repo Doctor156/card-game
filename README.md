@@ -1,4 +1,4 @@
-# hello-world
+# Карточная базовая игруха
 
 ## Project setup
 ```
