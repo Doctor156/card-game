@@ -11,9 +11,12 @@
 
 
 <script lang="ts">
-import {Vue} from 'vue-property-decorator';
+import {Prop, Vue} from 'vue-property-decorator';
+import {TCard} from "../types/TCard";
 
 export default class CardsGame extends Vue {
+  @Prop({}) cards: TCard[];
+
   makeCardActive(ev) {
     console.log(ev.target.class)
   }
