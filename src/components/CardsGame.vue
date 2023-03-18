@@ -12,13 +12,13 @@
 
 <script lang="ts">
 import {Prop, Vue} from 'vue-property-decorator';
-import {TCard} from "../types/TCard";
+import {TCard} from "@/types/TCard";
 
 export default class CardsGame extends Vue {
-  @Prop({}) cards: TCard[];
+  @Prop({}) cards: TCard[] = [];
 
-  makeCardActive(ev) {
-    console.log(ev.target.class)
+  makeCardActive(index: number) {
+    console.log(index)
   }
 
   get content() {
