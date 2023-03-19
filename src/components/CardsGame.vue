@@ -1,6 +1,11 @@
 <template>
   <div class="card-game__wrapper">
-    <div v-for="(card, index) in cards" :key="index" class="card-game__card" :ref="index" @click="processCard(index)">
+    <div
+        v-for="(card, index) in cards" :key="index"
+        :class="{'card-game__card--active': card.active, 'card-game__card--freeze': card.freeze}"
+        class="card-game__card"
+        @click="processCard(index)"
+    >
       <div class="card-game__card-content-wrapper">
         <div class="card-game__front-content" :class="{'card-game__front-content--active': !card.active}">Меня не видно</div>
         <div class="card-game__back-content" :class="{'card-game__back-content--active': card.active}">
@@ -51,6 +56,7 @@ export default class CardsGame extends Vue {
       return;
     }
 
+    // Если мы до этого выбирали карточку то делаем обе неактивными
     if (this.prevCardIndex !== undefined) {
       this.makeCardUnActive(this.prevCardIndex);
       this.makeCardUnActive(currentCardIndex);
@@ -100,25 +106,52 @@ export default class CardsGame extends Vue {
   }
 
   &__back-content {
-    display: none;
+    visibility: hidden;
+    transition: transform 0.8s;
 
     &--active {
-      display: flex;
+      visibility: visible;
+      transform: rotateY(180deg);
     }
   }
 
   &__front-content {
-    display: none;
+    visibility: hidden;
+    transition: transform 0.8s;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
 
     &--active {
-      display: flex;
+      visibility: visible;
+      transform-style: preserve-3d;
     }
   }
 
   &__card {
     width: 100%;
     height: 300px;
-    background-color: red;
+    border-radius: 20px;
+    background: #f5f5f5;
+    position: relative;
+    padding: 1.8rem;
+    border: 2px solid #c3c6ce;
+    transition: 0.5s ease-out;
+    overflow: visible;
+    perspective: 1000px;
+    cursor: pointer;
+
+    &:hover {
+      border-color: #008bf8;
+      box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
+    }
+
+    &--active {
+      transform: rotateY(180deg);
+    }
+
+    &--freeze {
+      cursor: auto;
+    }
   }
 }
 </style>
