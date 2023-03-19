@@ -16,6 +16,7 @@
         </div>
       </div>
     </div>
+    <div class="card-game__game-end-window" v-if="checkForVictory">AAAAAAAAAAAAAAAAA</div>
   </div>
 </template>
 
@@ -29,8 +30,9 @@ export default class CardsGame extends Vue {
   @Prop({default: undefined}) cardsDefault!: TCard[];
   @Prop({default: ''}) text!: string;
 
-  answeredCards: TCard[] = [];
-  prevCardIndex: number|undefined = undefined
+  prevCardIndex: number|undefined = undefined;
+  // количество замороженных карт
+  freezeCardsCount: number = 0
   created() {
     this.cardsDefault = [...structuredClone(this.cardsDefault), ...this.cardsDefault];
   }
@@ -42,7 +44,7 @@ export default class CardsGame extends Vue {
   processCard(currentCardIndex: number) {
     const currentCard = this.cards[currentCardIndex];
     // Если текущая карта заморожена не делаем ничего
-    if (currentCard.freeze) return;
+    if (currentCard.freeze || currentCardIndex === this.prevCardIndex) return;
 
     this.makeCardActive(currentCardIndex);
 
@@ -50,6 +52,13 @@ export default class CardsGame extends Vue {
     if (this.prevCardIndex !== undefined && this.cards[this.prevCardIndex].type === this.cards[currentCardIndex].type) {
       this.freezeCard(currentCardIndex);
       this.freezeCard(this.prevCardIndex);
+
+      // пополняем счетчик количества замороженных карточек
+      this.countFreezeCards(currentCardIndex,this.prevCardIndex);
+      //поздравляем с победой, если счётчик заполнен
+      if (this.checkForVictory) {
+        this.reportOfVictory();
+      }
 
       this.prevCardIndex = undefined;
 
@@ -84,6 +93,25 @@ export default class CardsGame extends Vue {
   freezeCard(index: number) {
     this.$set(this.cards[index], 'freeze', true);
   }
+
+  // подсчет количества замороженных карт
+  countFreezeCards(index: number, prevIndex: number) {
+    if (this.cards[index].freeze && this.cards[prevIndex].freeze) {
+      return this.freezeCardsCount += 2;
+    }
+  }
+
+  // поздравление с победой
+   reportOfVictory() {
+      setTimeout(() => {
+        alert("Поздравляю бля с победой");
+      }, 1000);
+  }
+
+  get checkForVictory(): boolean {
+    return this.freezeCardsCount === this.cards.length;
+  }
+
 }
 </script>
 
@@ -100,6 +128,7 @@ export default class CardsGame extends Vue {
 
   &__wrapper {
     display: grid;
+    position: relative;
     grid-template-columns: repeat(3, 1fr);
     width: 100%;
     grid-gap: 10px;
@@ -152,6 +181,15 @@ export default class CardsGame extends Vue {
     &--freeze {
       cursor: auto;
     }
+  }
+
+  &__game-end-window {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    background-color: #008bf8;
   }
 }
 </style>
