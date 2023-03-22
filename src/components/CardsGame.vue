@@ -7,11 +7,11 @@
         @click="processCard(index)"
     >
       <div class="card-game__card-content-wrapper">
-        <div class="card-game__front-content" :class="{'card-game__front-content--active': !card.active}">Меня не видно</div>
+        <div class="card-game__front-content" :class="{'card-game__front-content--active': !card.active}">YOUR HAPPY CARD</div>
         <div class="card-game__back-content" :class="{'card-game__back-content--active': card.active}">
-          <div class="card-game__image-wrapper">
-            <img :src="card.src" :alt="card.type">
-          </div>
+<!--          <div class="card-game__image-wrapper">-->
+<!--            <img :src="card.src" :alt="card.type">-->
+<!--          </div>-->
           <div class="card-game__card-name" v-html="card.type" />
         </div>
       </div>
@@ -115,28 +115,103 @@ export default class CardsGame extends Vue {
 }
 </script>
 
-<style lang="scss" >
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+<style lang="scss">
 .card-game {
   display: flex;
   font-size: 14px;
+  color: #131921;
+  justify-items: center;
 
   &__wrapper {
     display: grid;
     position: relative;
     grid-template-columns: repeat(3, 1fr);
     width: 100%;
-    grid-gap: 10px;
+    grid-gap: 3%;
+
+    @media (max-width: 620px) {
+      grid-template-columns: repeat(3, 1fr);
+      width: 100%;
+      align-items: center;
+      justify-items: center;
+      grid-column-gap: 10px;
+    }
+
+    @media (max-width: 600px) {
+      grid-template-columns: repeat(2, 1fr);
+      align-items: center;
+      position: relative;
+    }
+
+    @media (max-width: 400px) {
+      align-items: center;
+      position: relative;
+    }
+
+    @media (max-width: 300px) {
+      align-items: center;
+      position: relative;
+    }
+
   }
 
   &__back-content {
     visibility: hidden;
     transition: transform 0.8s;
+    align-items: center;
+    text-align: center;
+    font-size: 24px;
+    font-weight:bold;
+    color: #ffffff;
+
+    @media (max-width: 620px) {
+      font-size: 24px;
+    }
+
+    @media (max-width: 500px) {
+      font-size: 20px;
+    }
+
+    @media (max-width: 400px) {
+      position: center;
+      margin-top: -10px;
+      font-size: 16px;
+      font-weight:bold;
+    }
+
+    @media (max-width: 300px) {
+      font-size: 10px;
+      font-weight:bold;
+    }
+
+    &__card-name {
+      text-align: center;
+      font-size: 24px;
+      font-weight:bolder;
+      position: absolute;
+
+      @media (max-width: 620px) {
+        margin-top: -20px;
+        font-size: 24px;
+      }
+
+      @media (max-width: 500px) {
+        margin-top: -20px;
+        font-size: 20px;
+      }
+
+      @media (max-width: 400px) {
+        margin-top: -30px;
+        font-size: 16px;
+        font-weight:bold;
+      }
+
+      @media (max-width: 300px) {
+        margin-top: -30px;
+        font-size: 10px;
+        font-weight:bold;
+      }
+    }
 
     &--active {
       visibility: visible;
@@ -149,6 +224,39 @@ export default class CardsGame extends Vue {
     transition: transform 0.8s;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
+    text-align: center;
+    font-size: 24px;
+    font-weight:bolder;
+    color: #ffffff;
+    position: absolute;
+
+
+    @media (max-width: 620px) {
+      margin-left: -23px;
+      text-align: center;
+      font-size: 24px;
+    }
+
+    @media (max-width: 500px) {
+      text-align: center;
+      font-size: 20px;
+    }
+
+    @media (max-width: 400px) {
+      margin-top: -10px;
+      margin-left: -27px;
+      text-align: center;
+      font-size: 16px;
+      font-weight:bold;
+    }
+
+    @media (max-width: 300px) {
+      margin-top: -20px;
+      margin-left: -30px;
+      text-align: center;
+      font-size: 10px;
+      font-weight:bold;
+    }
 
     &--active {
       visibility: visible;
@@ -158,21 +266,66 @@ export default class CardsGame extends Vue {
 
   &__card {
     width: 100%;
-    height: 300px;
+    height: 250px;
     border-radius: 20px;
-    background: #f5f5f5;
+    background: #f8a51b;
     position: relative;
     padding: 1.8rem;
-    border: 2px solid #c3c6ce;
+    border: 2px solid #F8A51B;
     transition: 0.5s ease-out;
     overflow: visible;
     perspective: 1000px;
     cursor: pointer;
 
+    @media (max-width: 620px) {
+      width: 150px;
+      height: 150px;
+    }
+
+    @media (max-width: 500px) {
+      width: 120px;
+      height: 120px;
+    }
+
+    @media (max-width: 400px) {
+      width: 100px;
+      height: 100px;
+    }
+
+    @media (max-width: 300px) {
+      width: 60px;
+      height: 60px;
+    }
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      bottom: -5px;
+      left: -5px;
+      z-index: -1;
+      background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+      background-size: 400%;
+      border-radius: 40px;
+      opacity: 0;
+      transition: .5s;
+    }
+
     &:hover {
       border-color: #008bf8;
       box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
+      animation: animate 8s linear infinite;
+
+
+      &:before {
+        filter: blur(20px);
+        opacity: 1;
+        animation: animate 8s linear infinite;
+      }
     }
+
+
 
     &--active {
       transform: rotateY(180deg);
@@ -190,6 +343,15 @@ export default class CardsGame extends Vue {
     width: 100px;
     height: 100px;
     background-color: #008bf8;
+  }
+
+  @keyframes animate {
+    0% {
+      background-position: 0%;
+    }
+    100% {
+      background-position: 400%;
+    }
   }
 }
 </style>
